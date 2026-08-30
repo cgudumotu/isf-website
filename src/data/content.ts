@@ -556,8 +556,8 @@ export const gallery = {
     {
       title: 'Welcome Pool Party',
       date: 'Saturday, September 5, 2026 · 5 to 9pm',
-      location: "Marty's House, 4455 Stanbridge, Long Beach 90808",
-      text: 'The first big hangout of the semester. Swim, eat, and meet everybody at once.',
+      location: '4455 Stanbridge Avenue, Long Beach 90808',
+      text: 'Splash into the new semester with the biggest pool hangout of the year. Swimming, food and everybody in one place. Free, vegetarian options provided, and parking is free. Need a ride? Ask for one when you register, first come first served.',
       tag: 'Hangout',
     },
     {
@@ -620,25 +620,27 @@ export const gallery = {
  */
 export const featuredEvent = {
   /** Set to '' to switch the whole feature off. */
-  href: 'https://www.eventbrite.com/e/welcome-back-the-semester-starter-dinner-tickets-1998644206624?aff=oddtdtcreator',
+  href: 'https://www.eventbrite.com/e/welcome-pool-party-tickets-1999173204872?aff=oddtdtcreator',
 
-  /** Long Beach local wall clock, 24-hour. 21:00 = 9pm. No offset here. */
-  hideAfter: '2026-08-28T21:00',
+  /* The title MUST match an entry in gallery.upcoming exactly. That match is
+     what turns that one event card into a live registration link, instead of
+     having a second copy of the same event sitting above the list. One event,
+     one card, one place to edit. */
+  title: 'Welcome Pool Party',
+
+  /** Long Beach local wall clock, 24-hour. Midnight = the end of Sept 5. */
+  hideAfter: '2026-09-06T00:00',
   /** Every time on this site is Long Beach time. This is what makes that true. */
   timeZone: 'America/Los_Angeles',
 
   tag: 'New',
-  title: 'Welcome Back: The Semester Starter Dinner',
-  date: 'Friday, August 28, 2026 · 6 to 9pm',
-  location: "Marty's House, 4455 Stanbridge Avenue, Long Beach 90808",
-  text: 'An evening of great food and even better company. Catch up with old friends, meet new faces, and start the semester off right. Dinner is provided and there are vegetarian options. Rides from IHouse at CSULB and the Beverly parking lot. Come hungry.',
   ctaLabel: 'Register on Eventbrite',
 
-  /** The home page banner. */
+  /** The banner across the top of every page. */
   banner: {
     eyebrow: 'New event',
-    title: 'Welcome Back: The Semester Starter Dinner',
-    detail: 'Friday, August 28 · 6 to 9pm · Free dinner, rides available',
+    title: 'Welcome Pool Party',
+    detail: 'Saturday, September 5 · 5 to 9pm · Free, rides available',
     cta: 'Save your spot',
   },
 

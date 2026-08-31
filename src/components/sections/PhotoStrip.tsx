@@ -39,7 +39,7 @@ export default function PhotoStrip() {
             return (
               <Link
                 key={photo.slug}
-                to="/gallery"
+                to="/events"
                 className="group relative overflow-hidden rounded-2xl bg-paper-200 shadow-ministry ring-1 ring-ink-900/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-ministry-lg"
               >
                 <picture>
@@ -62,7 +62,7 @@ export default function PhotoStrip() {
         </div>
 
         <div className="mt-10 text-center">
-          <Button variant="secondary" to="/gallery">
+          <Button variant="secondary" to="/events">
             See all the photos
           </Button>
         </div>

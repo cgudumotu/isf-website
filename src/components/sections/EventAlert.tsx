@@ -11,7 +11,7 @@ import { useFeaturedEvent } from '../../lib/featuredEvent'
  *  headline wins, because that is what a hero is designed to do.
  *
  *  It also lives in the Layout rather than on the Home page, so it shows
- *  on every route. A student who lands on /gallery from an Instagram link
+ *  on every route. A student who lands on /events from an Instagram link
  *  never sees the home page at all, and they are exactly the person most
  *  likely to want a ticket.
  *

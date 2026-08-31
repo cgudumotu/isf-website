@@ -137,7 +137,7 @@ export default function About() {
       <CallToAction
         title="Come and see for yourself"
         description="The best way to understand ISF is to eat dinner with us. Turn up, bring a friend, and see for yourself."
-        primaryCta={{ label: 'See upcoming events', to: '/gallery#upcoming' }}
+        primaryCta={{ label: 'See upcoming events', to: '/events#upcoming' }}
         secondaryCta={{ label: 'Get in touch', to: '/connection' }}
       />
     </>

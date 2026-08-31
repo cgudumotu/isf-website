@@ -75,7 +75,7 @@ export default function Gallery() {
           something to turn up TO. Put the actionable thing first and the
           persuasive thing second.
 
-          id + scroll-mt is what makes /gallery#upcoming land here with
+          id + scroll-mt is what makes /events#upcoming land here with
           the sticky header clear of the heading. */}
       <section id="upcoming" className="scroll-mt-24">
         <div className="container-ministry py-16 sm:py-20">

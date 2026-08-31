@@ -7,8 +7,8 @@ import { useLocation } from 'react-router-dom'
  * A single-page app doesn't reload, so the browser keeps you wherever you
  * were on the previous page. Two cases to cover:
  *
- *   /gallery           -> jump to the top, like a normal page load
- *   /gallery#upcoming  -> jump to that section instead
+ *   /events           -> jump to the top, like a normal page load
+ *   /events#upcoming  -> jump to that section instead
  *
  * The hash case needs a beat before the element exists: pages are lazily
  * loaded, so the target usually isn't in the DOM on the first render.

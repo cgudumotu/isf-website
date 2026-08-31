@@ -102,7 +102,7 @@ export const site = {
 export const nav: NavItem[] = [
   { label: 'Home', to: '/' },
   { label: 'About', to: '/about' },
-  { label: 'Events', to: '/gallery' },
+  { label: 'Events', to: '/events' },
   { label: 'Connect', to: '/connection' },
 ]
 
@@ -206,7 +206,7 @@ export const home = {
     title: 'Free Food, Fun Hangouts, and Friends Who Stick Around',
     subtitle:
       "We're Americans at Cal State Long Beach who help international students settle into life in the US. Come eat with us, come to a beach day, ask us anything. Dinners and hangouts are free, and everyone's welcome.",
-    primaryCta: { label: 'Come to an event', to: '/gallery#upcoming' },
+    primaryCta: { label: 'Come to an event', to: '/events#upcoming' },
     secondaryCta: { label: 'Say hello', to: '/connection' },
     floatingTags: ['Free dinners', 'Beach & surf', 'Many nations', 'Real friendship'],
     stats: [
@@ -274,7 +274,7 @@ export const home = {
     title: 'Friendship first, always',
     body:
       "We're a group of friends who've been changed by the love of Christ, and we get to share it with the world without leaving Long Beach. That looks like dinners, conversations and fun activities. It looks like learning how to pronounce your name properly and asking about the food you grew up on. Everything good about this club started with the welcome we were given, and passing it on is the whole point.",
-    cta: { label: 'See what we get up to', to: '/gallery' },
+    cta: { label: 'See what we get up to', to: '/events' },
   },
   studentInvite: {
     eyebrow: 'For international students',
@@ -292,7 +292,7 @@ export const home = {
     title: "There's always room for one more",
     description:
       "Come eat with us, make a friend, and find out what it feels like to be expected somewhere. We'd love to meet you.",
-    primaryCta: { label: 'See upcoming events', to: '/gallery#upcoming' },
+    primaryCta: { label: 'See upcoming events', to: '/events#upcoming' },
     secondaryCta: { label: 'Message us', to: '/connection' },
   },
 }

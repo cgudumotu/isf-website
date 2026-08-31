@@ -33,7 +33,7 @@ import { asset } from '../../lib/asset'
 const STRENGTH: Record<string, number> = {
   '/': 0.26,           // Home       — most visible
   '/about': 0.22,      // About
-  '/gallery': 0.15,    // Events     — kept lighter, people read this page
+  '/events': 0.15,    // Events     — kept lighter, people read this page
   '/connection': 0.15, // Connect    — kept lighter, there's a form on it
 }
 

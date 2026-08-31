@@ -575,10 +575,8 @@ export const gallery = {
       tag: 'Outdoors',
     },
     {
-      // TODO: the postcard doesn't print a start time for this one. Ask Carol
-      // and add it here in the same format as the others.
       title: 'Soularium Conversation Dinner',
-      date: 'Friday, September 25, 2026',
+      date: 'Friday, September 25, 2026 · 6 to 9pm',
       location: "Marty's House, 4455 Stanbridge, Long Beach 90808",
       text: 'Dinner, then a set of photo cards. You pick the images that say something true about your life, and the conversation goes from there. People usually end up on the big questions.',
       tag: 'Dinner',

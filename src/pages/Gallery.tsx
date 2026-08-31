@@ -67,22 +67,17 @@ export default function Gallery() {
         description={gallery.hero.subtitle}
       />
 
-      <section className="container-ministry py-16 sm:py-20">
-        <div className="mx-auto mb-10 flex max-w-3xl flex-col gap-4 text-center">
-          {gallery.intro.map((p, i) => (
-            <p key={i} className="text-lg leading-relaxed text-ink-600">
-              {p}
-            </p>
-          ))}
-          <p className="text-sm font-semibold text-ink-400">Click any photo to see it bigger.</p>
-        </div>
+      {/* ORDER: what's coming up comes before what already happened.
+          Somebody arriving from the Instagram bio or the email banner is
+          deciding whether to turn up on Saturday, and that decision is
+          made by the dates. The photos are what convince them it will be
+          fun, but they only need convincing after they know there is
+          something to turn up TO. Put the actionable thing first and the
+          persuasive thing second.
 
-        <PhotoCollage />
-      </section>
-
-      {/* id + scroll-mt is what makes /gallery#upcoming land here with the
-          sticky header clear of the heading */}
-      <section id="upcoming" className="scroll-mt-24 bg-paper-100">
+          id + scroll-mt is what makes /gallery#upcoming land here with
+          the sticky header clear of the heading. */}
+      <section id="upcoming" className="scroll-mt-24">
         <div className="container-ministry py-16 sm:py-20">
           <SectionHeader eyebrow="Save the date" title="Upcoming events" align="left" />
 
@@ -188,6 +183,33 @@ export default function Gallery() {
                 </Card>
               )
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* The photos now carry the tinted background the events section used
+          to have. The page alternates plain / tinted / plain so each block
+          reads as its own thing; swapping the order without swapping the
+          backgrounds would have left the collage and the call-to-action
+          running together as one undivided stretch of white. */}
+      <section className="bg-paper-100">
+        <div className="container-ministry py-16 sm:py-20">
+          <SectionHeader eyebrow="From our albums" title="Photos" align="left" tone="sky" />
+
+          {/* These paragraphs describe the PHOTOS, so they travel with them.
+              Left-aligned now, to sit under the heading the same way the
+              event notes sit under theirs. */}
+          <div className="mt-6 flex max-w-3xl flex-col gap-4">
+            {gallery.intro.map((p, i) => (
+              <p key={i} className="text-lg leading-relaxed text-ink-600">
+                {p}
+              </p>
+            ))}
+            <p className="text-sm font-semibold text-ink-400">Click any photo to see it bigger.</p>
+          </div>
+
+          <div className="mt-10">
+            <PhotoCollage />
           </div>
         </div>
       </section>

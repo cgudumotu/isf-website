@@ -1,4 +1,4 @@
-# International Student Fellowship (ISF) — Website
+# International Student Fellowship (ISF) — Website: isfbeach.org
 
 
 The website for **International Student Fellowship (ISF)**, a recognized club

@@ -561,13 +561,6 @@ export const gallery = {
       tag: 'Hangout',
     },
     {
-      title: 'Talk Time Dinner',
-      date: 'Friday, September 11, 2026 · 6 to 9pm',
-      location: "Marty's House, 4455 Stanbridge, Long Beach 90808",
-      text: 'A home-cooked dinner and easy conversation. Good for practicing English and asking anything about American life.',
-      tag: 'Dinner',
-    },
-    {
       title: 'Surf & Body Board Lessons',
       date: 'Saturday, September 19, 2026 · 8 to 11am',
       location: 'Seal Beach Jetty',

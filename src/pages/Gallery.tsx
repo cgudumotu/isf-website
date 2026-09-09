@@ -6,6 +6,7 @@ import SectionHeader from '../components/ui/SectionHeader'
 import PhotoCollage from '../components/sections/PhotoCollage'
 import { featuredEvent, gallery } from '../data/content'
 import { useFeaturedEvent } from '../lib/featuredEvent'
+import { useUpcomingEvents } from '../lib/upcoming'
 import { accentAt, accentByName } from '../lib/accents'
 
 const toneGradient: Record<string, string> = {
@@ -53,6 +54,11 @@ function MetaRow({ icon, children }: { icon: 'date' | 'pin'; children: React.Rea
 
 export default function Gallery() {
   const live = useFeaturedEvent()
+  /* Only the events that have not finished yet, newest first, each with its
+     date line generated from its timestamps. The list tidies itself while
+     the page is open, so a tab left running overnight is correct in the
+     morning without anybody deploying anything. */
+  const upcoming = useUpcomingEvents()
   /* Which card's "not open yet" note is showing. One value rather than an
      array of booleans, so opening one closes the last. Two cards explaining
      the same thing at once is noise. */
@@ -94,8 +100,19 @@ export default function Gallery() {
             ))}
           </ul>
 
+          {/* Between semesters the list runs dry. Say so warmly and point
+              somewhere useful. An empty grid with a heading over it looks
+              like the page failed to load. */}
+          {upcoming.length === 0 && (
+            <p className="mt-10 rounded-ministry bg-sun-50 px-6 py-5 leading-relaxed text-ink-700 ring-1 ring-sun-200">
+              The next semester&rsquo;s events are being planned right now. Follow us on
+              Instagram or text one of us and we&rsquo;ll tell you the moment the new
+              calendar is out.
+            </p>
+          )}
+
           <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {gallery.upcoming.map((ev, i) => {
+            {upcoming.map((ev, i) => {
               const accent = accentAt(i * 2)
               /* One event in the list has open registration, and it is named
                  in featuredEvent.title. Matching by title rather than keeping

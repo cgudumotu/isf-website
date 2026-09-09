@@ -549,27 +549,65 @@ export const gallery = {
   ],
   /* Fall 2026, taken straight off the printed postcard (ISF_postcard_Fall_2026 WOW.pdf).
      Replace this whole list each semester from the new postcard and change
-     nothing else. Keep the date strings written out in full: "Sat 9/5" is
-     ambiguous to a student who writes dates day-first, which is most of the
-     world and most of the people reading this page. */
+     nothing else.
+
+     ---------------------------------------------------------------------
+     HOW TO WRITE THE DATES.  Read this before adding an event.
+     ---------------------------------------------------------------------
+     There is NO "date" field any more. You write two timestamps and the
+     website prints the pretty line for you:
+
+         starts: '2026-09-05T17:00'   ->  Saturday, September 5, 2026 · 5 to 9pm
+         ends:   '2026-09-05T21:00'
+
+     The shape is  YEAR-MONTH-DAYThour:minute , on a 24-hour clock, so 5pm
+     is 17:00 and 8am is 08:00. Always four-digit year, always two digits
+     for everything else: '2026-09-05T08:00', not '2026-9-5T8:00'.
+
+     These are LONG BEACH times, exactly as a clock on the wall here would
+     read. Do not add a timezone or an offset. The site knows the zone and
+     works out daylight saving on its own, which is why an event in
+     November stays correct after the clocks change.
+
+     WHY IT WORKS THIS WAY: the site hides an event by itself once the day
+     is over, and to do that it has to be able to compare the date to now.
+     It cannot do that with 'Saturday, September 5, 2026 · 5 to 9pm',
+     because that is a sentence, not a date. Writing both a sentence and a
+     timestamp would mean two things to keep in step, and one day they
+     would disagree. So you write the timestamps and the sentence is
+     generated. One thing to type, one thing to get wrong.
+
+     A TRIP ACROSS SEVERAL DAYS: just let ends fall on a later day and it
+     prints as a span instead, e.g.
+         starts: '2026-10-02T09:00'
+         ends:   '2026-10-04T16:00'
+     ->  Friday, October 2 to Sunday, October 4, 2026
+
+     WHEN IT DISAPPEARS: at midnight at the end of the day in `ends`.
+     A Friday dinner is still on the page all Friday evening and is gone
+     on Saturday morning. Nothing to remember, nothing to delete.
+     --------------------------------------------------------------------- */
   upcoming: [
     {
       title: 'Welcome Pool Party',
-      date: 'Saturday, September 5, 2026 · 5 to 9pm',
+      starts: '2026-09-05T17:00',
+      ends: '2026-09-05T21:00',
       location: '4455 Stanbridge Avenue, Long Beach 90808',
       text: 'Splash into the new semester with the biggest pool hangout of the year. Swimming, food and everybody in one place. Free, vegetarian options provided, and parking is free. Need a ride? Ask for one when you register, first come first served.',
       tag: 'Hangout',
     },
     {
       title: 'Surf & Body Board Lessons',
-      date: 'Saturday, September 19, 2026 · 8 to 11am',
+      starts: '2026-09-19T08:00',
+      ends: '2026-09-19T11:00',
       location: 'Seal Beach Jetty',
       text: 'Never surfed before? Perfect. Boards and instruction provided. ($5 per person)',
       tag: 'Outdoors',
     },
     {
       title: 'Soularium Conversation Dinner',
-      date: 'Friday, September 25, 2026 · 6 to 9pm',
+      starts: '2026-09-25T18:00',
+      ends: '2026-09-25T21:00',
       location: "Marty's House, 4455 Stanbridge, Long Beach 90808",
       text: 'Dinner, then a set of photo cards. You pick the images that say something true about your life, and the conversation goes from there. People usually end up on the big questions.',
       tag: 'Dinner',

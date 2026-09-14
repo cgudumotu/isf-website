@@ -605,12 +605,57 @@ export const gallery = {
       tag: 'Outdoors',
     },
     {
+      title: 'Rock Climbing',
+      starts: '2026-09-23T16:00',
+      ends: '2026-09-23T18:00',
+      location: 'CSULB Recreation Center',
+      text: "Anyone can climb, but can you hang around? Learn the ropes of a challenging sport, even if you've never tried it before. It's fun, challenging and safe. Text Art on 562-606-6160 if you can't find us.",
+      tag: 'Outdoors',
+    },
+    {
       title: 'Soularium Conversation Dinner',
       starts: '2026-09-25T18:00',
       ends: '2026-09-25T21:00',
       location: "Marty's House, 4455 Stanbridge, Long Beach 90808",
       text: 'Dinner, then a set of photo cards. You pick the images that say something true about your life, and the conversation goes from there. People usually end up on the big questions.',
       tag: 'Dinner',
+    },
+
+    /* ---- Rest of Fall 2026. Dates are confirmed, everything else is not.
+            Each of these has a bare date and no `ends`, which is how you
+            say "the day is set, the time is not announced yet": the card
+            prints the date and no clock time. Fill in the times, location
+            and description as each one is settled, and the card starts
+            showing them with no other change needed. ---- */
+    {
+      title: 'Less Stress Dinner',
+      starts: '2026-10-02',
+      text: 'Details to be published soon.',
+      tag: 'Dinner',
+    },
+    {
+      title: 'Outdoor Recreation',
+      starts: '2026-10-10',
+      text: 'Details to be published soon.',
+      tag: 'Outdoors',
+    },
+    {
+      title: 'Parables & Dinner',
+      starts: '2026-10-16',
+      text: 'Details to be published soon.',
+      tag: 'Dinner',
+    },
+    {
+      title: 'International Food Dinner',
+      starts: '2026-10-23',
+      text: 'Details to be published soon.',
+      tag: 'Dinner',
+    },
+    {
+      title: 'Halloween Party',
+      starts: '2026-10-30',
+      text: 'Details to be published soon.',
+      tag: 'Hangout',
     },
   ],
   cta: {
@@ -647,20 +692,30 @@ export const gallery = {
  *  saving or not and adjusts on its own. Summer, winter, the weekend the
  *  clocks change: all handled, nothing for you to remember.
  */
+/* =====================================================================
+ *  THE FEATURED EVENT — the one with registration open.
+ *
+ *  It appears in the bright banner across the top of EVERY page, home
+ *  page included, and its card in the events list turns into a live
+ *  "Register on Eventbrite" link instead of a plain card.
+ *
+ *  TO POINT IT AT A NEW EVENT, EDIT TWO LINES: `href` and `title`.
+ *  Nothing else. There is deliberately no end date here any more: the
+ *  banner reads the dates off the matching event in gallery.upcoming, so
+ *  it disappears exactly when that event does. One date, one place, no
+ *  way for the two to disagree.
+ * ===================================================================== */
 export const featuredEvent = {
   /** Set to '' to switch the whole feature off. */
-  href: 'https://www.eventbrite.com/e/welcome-pool-party-tickets-1999173204872?aff=oddtdtcreator',
+  href: 'https://www.eventbrite.com/e/surf-body-board-beach-day-tickets-2000812622414?aff=oddtdtcreator',
 
-  /* The title MUST match an entry in gallery.upcoming exactly. That match is
-     what turns that one event card into a live registration link, instead of
-     having a second copy of the same event sitting above the list. One event,
-     one card, one place to edit. */
-  title: 'Welcome Pool Party',
-
-  /** Long Beach local wall clock, 24-hour. Midnight = the end of Sept 5. */
-  hideAfter: '2026-09-06T00:00',
-  /** Every time on this site is Long Beach time. This is what makes that true. */
-  timeZone: 'America/Los_Angeles',
+  /* MUST match an entry in gallery.upcoming exactly, character for
+     character. That match is what turns that one card into a live
+     registration link, instead of keeping a second copy of the event
+     above the list. If it matches nothing, no banner shows at all, so a
+     typo fails visibly instead of advertising an event the site does not
+     list. */
+  title: 'Surf & Body Board Lessons',
 
   tag: 'New',
   ctaLabel: 'Register on Eventbrite',
@@ -668,8 +723,11 @@ export const featuredEvent = {
   /** The banner across the top of every page. */
   banner: {
     eyebrow: 'New event',
-    title: 'Welcome Pool Party',
-    detail: 'Saturday, September 5 · 5 to 9pm · Free, rides available',
+    title: 'Surf & Body Board Beach Day',
+    /* The date is generated from the event, so it is never typed here and
+       can never go stale. `note` is the only part you write: a few words
+       on cost, rides, or anything else worth saying in the banner. */
+    note: '$5 per person, rides available',
     cta: 'Save your spot',
   },
 

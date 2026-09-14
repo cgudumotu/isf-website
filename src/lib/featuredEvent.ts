@@ -1,103 +1,100 @@
 import { useEffect, useState } from 'react'
-import { featuredEvent } from '../data/content'
+import { featuredEvent, gallery } from '../data/content'
+import { formatEventDate, hasEnded, type IsfEvent } from './upcoming'
 
 /* ---------------------------------------------------------------------
- *  Is the featured event still worth showing?
+ *  THE FEATURED EVENT — the one with open registration, shown in the
+ *  banner across the top of every page and as a live link on its card.
  *
- *  WHY THIS IS DECIDED IN THE BROWSER
- *  ----------------------------------
- *  This site is static files on GitHub Pages. There is no server running
- *  anywhere that could check the time and send a different page, so the
- *  only clock available is the visitor's own. That is fine here: the worst
- *  case is a student whose laptop clock is wrong sees a dinner banner an
- *  hour late. It would NOT be fine for anything that matters, like hiding
- *  a price or gating access, because a visitor can set their clock to
- *  whatever they like. Never enforce a rule with a clock you don't own.
+ *  WHAT YOU EDIT WHEN A NEW EVENT OPENS FOR REGISTRATION
+ *  -----------------------------------------------------
+ *  Two lines in content.ts: `href` (the Eventbrite link) and `title`
+ *  (copied exactly from an event in gallery.upcoming). That is all.
  *
- *  WHY WE STORE A ZONE NAME AND NOT AN OFFSET
+ *  THERE IS NO "HIDE AFTER" DATE ANY MORE, ON PURPOSE
+ *  --------------------------------------------------
+ *  There used to be one, typed by hand. Which meant the same event had
+ *  its date written down twice, in two places, and nothing forced them
+ *  to agree. Change the event's date and forget the other one, and the
+ *  banner outlives the event, sending students to a car park on the
+ *  wrong evening. That is not a hypothetical: the pool party banner and
+ *  the pool party card were already drifting apart.
+ *
+ *  So the banner now expires WITH its event, because it reads that
+ *  event's own dates. One date, one place, no way to disagree.
+ *
+ *  A TITLE THAT MATCHES NOTHING SHOWS NOTHING
  *  ------------------------------------------
- *  Carol says "PST" the way most Californians do, meaning "our local time".
- *  But PST is literally UTC-8, and California is only on it from November
- *  to March. From March to November it's on PDT, UTC-7. Hardcode -08:00
- *  for an August event and the banner hangs around an hour past when you
- *  wanted it gone.
+ *  If `title` does not name a real event, there is no banner at all.
+ *  A typo therefore fails loudly and visibly, rather than producing a
+ *  banner advertising an event the site does not list.
  *
- *  So instead of an offset we store the ZONE ("America/Los_Angeles") and
- *  let the browser work out which offset applies on that specific date.
- *  Zone names carry the whole history of daylight saving; a fixed offset
- *  is only correct for half the year. Any time you find yourself typing a
- *  timezone offset by hand, reach for the zone name instead.
- *
- *  WHY AN INTERVAL AND NOT setTimeout
- *  ----------------------------------
- *  The obvious version is `setTimeout(hide, deadline - Date.now())`. That
- *  breaks silently for anything more than about 24.8 days away, because
- *  browsers store the delay in a signed 32-bit integer. Overflow it and
- *  the timer fires IMMEDIATELY instead of later, so a banner scheduled a
- *  month out would vanish the instant the page loaded. Checking the clock
- *  every half minute costs nothing and has no such cliff.
+ *  WHY THE BROWSER DECIDES THIS AT ALL
+ *  -----------------------------------
+ *  The site is static files on GitHub Pages. No server runs anywhere to
+ *  check the time and send a different page, so the only clock available
+ *  is the visitor's own. Fine here: the worst case is somebody with a
+ *  wrong laptop clock sees a banner an hour late. It would NOT be fine
+ *  for hiding a price or gating access, because a visitor can set their
+ *  clock to anything. Never enforce a rule with a clock you don't own.
  * ------------------------------------------------------------------- */
 
-const CHECK_EVERY_MS = 30_000
+const CHECK_EVERY_MS = 60_000
+
+export interface LiveFeature {
+  href: string
+  title: string
+  tag: string
+  ctaLabel: string
+  /** The matching entry from gallery.upcoming. */
+  event: IsfEvent
+  /** Generated from that event's dates, never typed by hand. */
+  date: string
+  banner: { eyebrow: string; title: string; detail: string; cta: string }
+}
 
 /**
- * How far a zone sits from UTC at one particular instant, in milliseconds.
- *
- * There is no direct API for this, so we use the standard trick: ask
- * Intl to print that instant as wall-clock numbers in the target zone,
- * reassemble those numbers as if they were UTC, and measure the gap.
+ * Exported, and takes `now` as an argument, so the banner's behaviour can
+ * be checked at any moment in history without waiting for that date to
+ * arrive. A function that reads the clock itself can only be tested by
+ * changing the computer's clock, which nobody ever does.
  */
-function zoneOffsetMs(utcMs: number, timeZone: string): number {
-  const parts = new Intl.DateTimeFormat('en-US', {
-    timeZone,
-    hour12: false,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  }).formatToParts(new Date(utcMs))
+export function currentFeature(now: number = Date.now()): LiveFeature | null {
+  if (!featuredEvent.href) return null // the manual off switch
 
-  const f = (type: string) => Number(parts.find((p) => p.type === type)?.value)
-  // hour comes back as 24 rather than 0 at midnight in some engines
-  return (
-    Date.UTC(f('year'), f('month') - 1, f('day'), f('hour') % 24, f('minute'), f('second')) - utcMs
-  )
+  const event = (gallery.upcoming as IsfEvent[]).find((e) => e.title === featuredEvent.title)
+  if (!event) return null // title matches no event: show nothing rather than something wrong
+  if (hasEnded(event, now)) return null
+
+  const date = formatEventDate(event.starts, event.ends)
+  const note = featuredEvent.banner.note
+  return {
+    href: featuredEvent.href,
+    title: featuredEvent.title,
+    tag: featuredEvent.tag,
+    ctaLabel: featuredEvent.ctaLabel,
+    event,
+    date,
+    banner: {
+      eyebrow: featuredEvent.banner.eyebrow,
+      title: featuredEvent.banner.title,
+      // The date half is generated; the note is the only part Carol writes.
+      detail: note ? `${date} · ${note}` : date,
+      cta: featuredEvent.banner.cta,
+    },
+  }
 }
 
-/** Turn "2026-08-28T21:00" in a named zone into a real moment in time. */
-export function zonedTimeToMs(wallClock: string, timeZone: string): number {
-  const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/.exec(wallClock.trim())
-  if (!m) return NaN
-  const [, y, mo, d, h, mi] = m.map(Number)
-
-  // Read the wall clock as if it were UTC, then slide it by the zone's offset.
-  const asIfUtc = Date.UTC(y, mo - 1, d, h, mi)
-  const first = asIfUtc - zoneOffsetMs(asIfUtc, timeZone)
-  // Re-check once: the initial guess can land on the far side of a daylight
-  // saving change, in which case the offset we used was the wrong one.
-  const second = asIfUtc - zoneOffsetMs(first, timeZone)
-  return second
-}
-
-function stillLive(): boolean {
-  if (!featuredEvent.href) return false // the manual off switch
-  const deadline = zonedTimeToMs(featuredEvent.hideAfter, featuredEvent.timeZone)
-  if (Number.isNaN(deadline)) return false // a malformed date hides it rather than showing it forever
-  return Date.now() < deadline
-}
-
-export function useFeaturedEvent() {
-  const [live, setLive] = useState(stillLive)
+export function useFeaturedEvent(): LiveFeature | null {
+  const [live, setLive] = useState<LiveFeature | null>(currentFeature)
 
   useEffect(() => {
     if (!live) return
     const id = window.setInterval(() => {
-      if (!stillLive()) setLive(false)
+      if (!currentFeature()) setLive(null)
     }, CHECK_EVERY_MS)
     return () => window.clearInterval(id)
   }, [live])
 
-  return live ? featuredEvent : null
+  return live
 }

@@ -141,7 +141,10 @@ export default function Gallery() {
                   </span>
                   <span className="flex flex-wrap gap-x-5 gap-y-1">
                     <MetaRow icon="date">{ev.date}</MetaRow>
-                    <MetaRow icon="pin">{ev.location}</MetaRow>
+                    {/* An event whose venue is not settled yet simply has no
+                        pin row. Rendering the icon beside an empty string
+                        would look like the page failed to load the address. */}
+                    {ev.location && <MetaRow icon="pin">{ev.location}</MetaRow>}
                   </span>
                   <span className="leading-relaxed text-ink-600">{ev.text}</span>
                 </>

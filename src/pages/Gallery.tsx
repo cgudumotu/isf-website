@@ -8,6 +8,7 @@ import { featuredEvent, gallery } from '../data/content'
 import { useFeaturedEvent } from '../lib/featuredEvent'
 import { useUpcomingEvents } from '../lib/upcoming'
 import { accentAt, accentByName } from '../lib/accents'
+import { asset } from '../lib/asset'
 
 const toneGradient: Record<string, string> = {
   red: 'from-red-300 to-red-500',
@@ -121,6 +122,27 @@ export default function Gallery() {
               const registerable = live && live.title === ev.title
               const open = noteFor === ev.title
 
+              /* The promo poster, when the event has one.
+                 <picture> serves WebP to browsers that take it and falls back
+                 to JPEG for the rest: half the bytes for the same picture.
+                 aspectRatio reserves the exact space before the file arrives,
+                 so nothing below it jumps when it loads. */
+              const poster = ev.poster && (
+                <span className="block overflow-hidden rounded-2xl bg-paper-200 shadow-ministry ring-1 ring-ink-900/5">
+                  <picture>
+                    <source srcSet={asset(`events/${ev.poster.slug}.webp`)} type="image/webp" />
+                    <img
+                      src={asset(`events/${ev.poster.slug}.jpg`)}
+                      alt={ev.poster.alt}
+                      loading="lazy"
+                      decoding="async"
+                      style={{ aspectRatio: String(ev.poster.ratio) }}
+                      className="w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
+                  </picture>
+                </span>
+              )
+
               const head = (
                 <>
                   <span className="flex items-center justify-between gap-3">
@@ -162,15 +184,30 @@ export default function Gallery() {
                     className="group relative flex flex-col gap-3 overflow-hidden rounded-ministry bg-white p-7 shadow-ministry ring-2 ring-coral-300 transition-all duration-300 hover:-translate-y-1 hover:shadow-ministry-lg focus-visible:-translate-y-1 md:col-span-2"
                   >
                     <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1.5 rule-rainbow" />
-                    {head}
-                    <span className="mt-1 inline-flex w-fit items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-bold tracking-wide text-white shadow-ministry transition-colors duration-200 group-hover:bg-brand-700">
-                      {live.ctaLabel}
-                      {/* the arrow leaving the box is the convention for "this
-                          opens somewhere else", which the new tab makes true */}
-                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                        <path d="M14 4h6v6M20 4l-8.5 8.5M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
-                      </svg>
+
+                    {/* The featured card runs the full width of the grid, so a
+                        tall portrait poster goes BESIDE the text rather than
+                        above it. Stacked, the poster alone would fill a phone
+                        screen and push the date and the register button below
+                        the fold, which is the opposite of featuring it.
+                        On a narrow screen it stacks, poster first. */}
+                    <span className="flex flex-col gap-6 sm:flex-row sm:items-start">
+                      {poster && (
+                        <span className="block w-full shrink-0 sm:w-[240px] md:w-[280px]">{poster}</span>
+                      )}
+                      <span className="flex min-w-0 flex-1 flex-col gap-3">
+                        {head}
+                        <span className="mt-1 inline-flex w-fit items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-bold tracking-wide text-white shadow-ministry transition-colors duration-200 group-hover:bg-brand-700">
+                          {live.ctaLabel}
+                          {/* the arrow leaving the box is the convention for "this
+                              opens somewhere else", which the new tab makes true */}
+                          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                            <path d="M14 4h6v6M20 4l-8.5 8.5M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+                          </svg>
+                        </span>
+                      </span>
                     </span>
+
                     <span className="sr-only">(opens Eventbrite in a new tab)</span>
                   </a>
                 )
@@ -188,6 +225,8 @@ export default function Gallery() {
                     aria-expanded={open}
                     className="flex w-full flex-col gap-3 rounded-ministry p-7 text-left"
                   >
+                    {/* Half-width card, so a poster sits above the text here. */}
+                    {poster}
                     {head}
                     {/* aria-live so a screen reader announces the note appearing.
                         Without it the message is invisible to anyone not looking

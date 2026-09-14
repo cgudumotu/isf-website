@@ -42,9 +42,23 @@ export interface IsfEvent {
   starts: string
   /** Omit for an event with no settled finish time. */
   ends?: string
-  location: string
+  /** Omit while the venue is still being decided. */
+  location?: string
   text: string
   tag: string
+  /**
+   * An optional promo poster for this event, living in /public/events/.
+   *
+   * `slug` is the filename with no extension, because the site ships the
+   * same picture twice: a .webp for browsers that support it and a .jpg
+   * for those that don't. One name, two files, chosen by the browser.
+   *
+   * `ratio` is width / height. It is here so the card can reserve exactly
+   * the right space BEFORE the image arrives. Without it the text below
+   * jumps down the moment the picture loads, which is how a reader loses
+   * their place, or taps the wrong thing.
+   */
+  poster?: { slug: string; alt: string; ratio: number }
 }
 
 /** An event plus the human-readable date line built from its timestamps. */

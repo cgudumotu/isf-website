@@ -600,9 +600,18 @@ export const gallery = {
       title: 'Surf & Body Board Lessons',
       starts: '2026-09-19T08:00',
       ends: '2026-09-19T11:00',
-      location: 'Seal Beach Jetty',
-      text: 'Never surfed before? Perfect. Boards and instruction provided. ($5 per person)',
+      // Street address taken from the poster, so a student can put it
+      // straight into their phone instead of searching for "the jetty".
+      location: 'Seal Beach Jetty, 95 1st St, Seal Beach',
+      text: 'Learn to surf, body board, swim, or just come and chill on the beach. Boards and instruction provided. ($5 per person)',
       tag: 'Outdoors',
+      /* The Instagram poster. Both files live in /public/events/ as
+         surf-body-board-day.webp and .jpg. ratio is width / height. */
+      poster: {
+        slug: 'surf-body-board-day',
+        alt: 'ISF presents Surf and Body Board Day. Saturday September 19, 8 to 11am, 95 1st Street, Seal Beach. Learn to surf, body board, swim, or just come chill on the beach.',
+        ratio: 0.8303,
+      },
     },
     {
       title: 'Rock Climbing',

@@ -716,7 +716,7 @@ export const gallery = {
  * ===================================================================== */
 export const featuredEvent = {
   /** Set to '' to switch the whole feature off. */
-  href: 'https://www.eventbrite.com/e/surf-body-board-beach-day-tickets-2000812622414?aff=oddtdtcreator',
+  href: 'https://soularium-dinner.eventbrite.com',
 
   /* MUST match an entry in gallery.upcoming exactly, character for
      character. That match is what turns that one card into a live
@@ -724,7 +724,7 @@ export const featuredEvent = {
      above the list. If it matches nothing, no banner shows at all, so a
      typo fails visibly instead of advertising an event the site does not
      list. */
-  title: 'Surf & Body Board Lessons',
+  title: 'Soularium Conversation Dinner',
 
   tag: 'New',
   ctaLabel: 'Register on Eventbrite',
@@ -732,11 +732,11 @@ export const featuredEvent = {
   /** The banner across the top of every page. */
   banner: {
     eyebrow: 'New event',
-    title: 'Surf & Body Board Beach Day',
+    title: 'Soularium Conversation Dinner',
     /* The date is generated from the event, so it is never typed here and
        can never go stale. `note` is the only part you write: a few words
        on cost, rides, or anything else worth saying in the banner. */
-    note: '$5 per person, rides available',
+    note: 'Free dinner, rides available',
     cta: 'Save your spot',
   },
 

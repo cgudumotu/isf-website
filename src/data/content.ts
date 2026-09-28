@@ -638,8 +638,10 @@ export const gallery = {
             showing them with no other change needed. ---- */
     {
       title: 'Less Stress Dinner',
-      starts: '2026-10-02',
-      text: 'Details to be published soon.',
+      starts: '2026-10-02T18:00',
+      ends: '2026-10-02T21:00',
+      location: "Marty's House, 4455 Stanbridge, Long Beach 90808",
+      text: "What's putting pressure on you right now? Studies, finding a job, meeting your parents' expectations? Come for a relaxing dinner with vegetarian options, plus time to learn and have fun. We'll look at what ancient wisdom says about handling stress, and pick up some techniques to relax your mind, body and soul.",
       tag: 'Dinner',
     },
     {
@@ -716,7 +718,7 @@ export const gallery = {
  * ===================================================================== */
 export const featuredEvent = {
   /** Set to '' to switch the whole feature off. */
-  href: 'https://soularium-dinner.eventbrite.com',
+  href: 'https://less-stress-dinner.eventbrite.com',
 
   /* MUST match an entry in gallery.upcoming exactly, character for
      character. That match is what turns that one card into a live
@@ -724,7 +726,7 @@ export const featuredEvent = {
      above the list. If it matches nothing, no banner shows at all, so a
      typo fails visibly instead of advertising an event the site does not
      list. */
-  title: 'Soularium Conversation Dinner',
+  title: 'Less Stress Dinner',
 
   tag: 'New',
   ctaLabel: 'Register on Eventbrite',
@@ -732,7 +734,7 @@ export const featuredEvent = {
   /** The banner across the top of every page. */
   banner: {
     eyebrow: 'New event',
-    title: 'Soularium Conversation Dinner',
+    title: 'Less Stress Dinner',
     /* The date is generated from the event, so it is never typed here and
        can never go stale. `note` is the only part you write: a few words
        on cost, rides, or anything else worth saying in the banner. */

@@ -47,6 +47,22 @@ export interface IsfEvent {
   text: string
   tag: string
   /**
+   * Eventbrite link, present once registration is open for THIS event.
+   *
+   * The link lives on the event rather than in one global "featured
+   * event" setting, because more than one event can be open for
+   * registration at the same time. Two nights running in parallel on the
+   * same Friday is exactly that case, and a design that allows only one
+   * live link would have quietly hidden the second one.
+   *
+   * The featured-event setting still decides which single event gets the
+   * banner across the top of the site. Deciding which card is clickable
+   * and deciding which event is shouted about are two different jobs.
+   */
+  href?: string
+  /** Overrides the button label. Defaults to "Register on Eventbrite". */
+  ctaLabel?: string
+  /**
    * An optional promo poster for this event, living in /public/events/.
    *
    * `slug` is the filename with no extension, because the site ships the

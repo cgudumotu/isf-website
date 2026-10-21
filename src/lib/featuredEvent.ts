@@ -43,6 +43,10 @@ const CHECK_EVERY_MS = 60_000
 
 export interface LiveFeature {
   href: string
+  /** true = Eventbrite, open in a new tab. false = a route on this site. */
+  external: boolean
+  /** true when several events share the slot, so no single card is 'the' one. */
+  group: boolean
   title: string
   tag: string
   ctaLabel: string
@@ -60,19 +64,39 @@ export interface LiveFeature {
  * changing the computer's clock, which nobody ever does.
  */
 export function currentFeature(now: number = Date.now()): LiveFeature | null {
-  if (!featuredEvent.href) return null // the manual off switch
+  if (!featuredEvent.title) return null // the manual off switch
 
-  const event = (gallery.upcoming as IsfEvent[]).find((e) => e.title === featuredEvent.title)
-  if (!event) return null // title matches no event: show nothing rather than something wrong
+  /* WHEN TWO EVENTS SHARE THE SLOT
+     ------------------------------
+     Some nights run in parallel, like the men's and women's nights on the
+     same Friday. A banner can only carry one link, and sending every
+     visitor to one of the two would be wrong for half of them. So when
+     `featuredEvent.title` names no single event, the banner instead points
+     at the events page, where both cards are waiting. Let the visitor pick
+     rather than guessing on their behalf. */
+  const isGroup = featuredEvent.title === '*'
+
+  const matches = isGroup
+    ? (gallery.upcoming as IsfEvent[]).filter((e) => e.href && !hasEnded(e, now))
+    : (gallery.upcoming as IsfEvent[]).filter((e) => e.title === featuredEvent.title)
+
+  const event = matches[0]
+  if (!event) return null // nothing to feature: show nothing rather than something wrong
+  if (!isGroup && !event.href) return null // registration isn't open yet
   if (hasEnded(event, now)) return null
 
   const date = formatEventDate(event.starts, event.ends)
   const note = featuredEvent.banner.note
   return {
-    href: featuredEvent.href,
-    title: featuredEvent.title,
+    /* The link comes from the EVENT, so the banner and that event's card
+       can never point at two different Eventbrite pages. In group mode it
+       points at the events page instead. */
+    href: isGroup ? '/events#upcoming' : event.href!,
+    external: !isGroup,
+    group: isGroup,
+    title: event.title,
     tag: featuredEvent.tag,
-    ctaLabel: featuredEvent.ctaLabel,
+    ctaLabel: event.ctaLabel ?? 'Register on Eventbrite',
     event,
     date,
     banner: {

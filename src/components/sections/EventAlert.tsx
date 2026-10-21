@@ -31,12 +31,18 @@ export default function EventAlert() {
   const event = useFeaturedEvent()
   if (!event) return null
 
+  /* An Eventbrite link leaves the site, so it opens in a new tab and says so
+     to a screen reader. A link to our own events page is ordinary navigation
+     and must NOT open a tab: a new tab for an in-site link is disorienting,
+     and it breaks the back button people expect to use. */
+  const linkProps = event.external
+    ? { href: event.href, target: '_blank', rel: 'noopener noreferrer' }
+    : { href: event.href }
+
   return (
     <aside className="relative z-30 bg-gradient-to-r from-coral-700 via-berry-700 to-grape-700 text-white">
       <a
-        href={event.href}
-        target="_blank"
-        rel="noopener noreferrer"
+        {...linkProps}
         className="group container-ministry flex flex-wrap items-center justify-center gap-x-4 gap-y-2 py-2.5 text-center focus-visible:outline-none sm:py-3"
       >
         <span className="flex items-center gap-2">
@@ -71,7 +77,7 @@ export default function EventAlert() {
           </svg>
         </span>
 
-        <span className="sr-only">(opens Eventbrite in a new tab)</span>
+        {event.external && <span className="sr-only">(opens Eventbrite in a new tab)</span>}
       </a>
     </aside>
   )

@@ -657,10 +657,22 @@ export const gallery = {
       tag: 'Dinner',
     },
     {
-      title: 'International Food Dinner',
-      starts: '2026-10-23',
-      text: 'Details to be published soon.',
-      tag: 'Dinner',
+      title: "Larry's Man Cave Night",
+      starts: '2026-10-23T18:00',
+      ends: '2026-10-23T21:00',
+      location: '9634 Faywood Street, Bellflower 90706',
+      text: "An evening for the guys: eating, sharing, games or working out. Dinner provided with vegetarian options, and we'll talk about how to grow into better men. Need a ride? Text Bob on 562-212-9522 by 12pm Friday for a 5:30pm pickup from Beverly Plaza or the CSULB International Dorm.",
+      tag: 'Hangout',
+      href: 'https://www.eventbrite.com/e/larrys-man-cave-night-tickets-2003647885763?aff=oddtdtcreator',
+    },
+    {
+      title: "Women's Only Night",
+      starts: '2026-10-23T18:00',
+      ends: '2026-10-23T21:00',
+      location: "Lisa's place, 5958 Dunrobin Avenue, Lakewood 90713",
+      text: "Women, join us for an evening of dinner, crafts and fun at Lisa's place, with vegetarian options included. We hope you'll find it a refreshing and encouraging evening. Need a ride? Text Lisa on 562-308-7272 by 12 noon Friday for a 5:30pm pickup from Beverly Plaza or the CSULB International Student Dorm.",
+      tag: 'Hangout',
+      href: 'https://www.eventbrite.com/e/womens-only-night-tickets-2003646445455?aff=oddtdtcreator',
     },
     {
       title: 'Halloween Party',
@@ -717,29 +729,31 @@ export const gallery = {
  *  way for the two to disagree.
  * ===================================================================== */
 export const featuredEvent = {
-  /** Set to '' to switch the whole feature off. */
-  href: 'https://less-stress-dinner.eventbrite.com',
+  /* WHICH EVENT THE TOP BANNER SHOUTS ABOUT.
+     Put an event title here, copied exactly from gallery.upcoming, and the
+     banner links straight to that event's Eventbrite page.
 
-  /* MUST match an entry in gallery.upcoming exactly, character for
-     character. That match is what turns that one card into a live
-     registration link, instead of keeping a second copy of the event
-     above the list. If it matches nothing, no banner shows at all, so a
-     typo fails visibly instead of advertising an event the site does not
-     list. */
-  title: 'Less Stress Dinner',
+     Put '*' instead when several events are open at once, as on a Friday
+     with a men's night and a women's night running in parallel. The banner
+     then links to the events page so the visitor picks which one is theirs,
+     rather than the site guessing and being wrong for half of them.
+
+     Set to '' to switch the banner off entirely. A title that matches no
+     event also shows nothing, so a typo fails visibly rather than
+     advertising something the site does not list. */
+  title: '*',
 
   tag: 'New',
-  ctaLabel: 'Register on Eventbrite',
 
   /** The banner across the top of every page. */
   banner: {
-    eyebrow: 'New event',
-    title: 'Less Stress Dinner',
+    eyebrow: 'This Friday',
+    title: "Men's Night & Women's Night",
     /* The date is generated from the event, so it is never typed here and
        can never go stale. `note` is the only part you write: a few words
        on cost, rides, or anything else worth saying in the banner. */
     note: 'Free dinner, rides available',
-    cta: 'Save your spot',
+    cta: 'See both events',
   },
 
   /** Shown when somebody clicks any event that has no link yet. */

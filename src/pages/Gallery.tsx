@@ -115,11 +115,18 @@ export default function Gallery() {
           <div className="mt-10 grid gap-6 md:grid-cols-2">
             {upcoming.map((ev, i) => {
               const accent = accentAt(i * 2)
-              /* One event in the list has open registration, and it is named
-                 in featuredEvent.title. Matching by title rather than keeping
-                 a second copy of the event above the list means there is one
-                 card per event and one place to edit when the next one opens. */
-              const registerable = live && live.title === ev.title
+              /* Registration is open for this event if the event itself carries
+                 a link. Several can be open at once, which is what happens when
+                 two nights run in parallel on the same Friday.
+
+                 `live` is a separate question: which ONE event is in the banner
+                 across the top of the site. That event gets the wider, louder
+                 card. The others still register, just without the megaphone. */
+              const registerable = Boolean(ev.href)
+              /* In group mode the banner points at this page rather than at one
+                 event, so no card is singled out and the parallel nights sit
+                 side by side as the matched pair they are. */
+              const isBanner = Boolean(live && !live.group && live.title === ev.title)
               const open = noteFor === ev.title
 
               /* The promo poster, when the event has one.
@@ -147,7 +154,7 @@ export default function Gallery() {
                 <>
                   <span className="flex items-center justify-between gap-3">
                     <span className="text-xl font-bold text-ink-900">{ev.title}</span>
-                    {registerable ? (
+                    {isBanner && live ? (
                       <span className="flex shrink-0 items-center gap-2 rounded-full bg-coral-50 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-coral-800">
                         <span className="relative flex h-2 w-2" aria-hidden="true">
                           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-coral-500 opacity-75 motion-reduce:hidden" />
@@ -172,33 +179,50 @@ export default function Gallery() {
                 </>
               )
 
-              /* ---- the one with an open link: a real <a>, so middle-click
-                      and "open in new tab" behave the way people expect ---- */
+              /* ---- anything with a link: a real <a>, so middle-click and
+                      "open in new tab" behave the way people expect. The
+                      banner event gets the full-width treatment; other open
+                      events sit in the normal grid. ---- */
               if (registerable) {
                 return (
                   <a
                     key={ev.title}
-                    href={live.href}
+                    href={ev.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative flex flex-col gap-3 overflow-hidden rounded-ministry bg-white p-7 shadow-ministry ring-2 ring-coral-300 transition-all duration-300 hover:-translate-y-1 hover:shadow-ministry-lg focus-visible:-translate-y-1 md:col-span-2"
+                    className={`group relative flex flex-col gap-3 overflow-hidden rounded-ministry bg-white p-7 shadow-ministry ring-2 ring-coral-300 transition-all duration-300 hover:-translate-y-1 hover:shadow-ministry-lg focus-visible:-translate-y-1 ${isBanner ? 'md:col-span-2' : ''}`}
                   >
                     <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1.5 rule-rainbow" />
 
-                    {/* The featured card runs the full width of the grid, so a
+                    {/* The banner card runs the full width of the grid, so a
                         tall portrait poster goes BESIDE the text rather than
                         above it. Stacked, the poster alone would fill a phone
                         screen and push the date and the register button below
                         the fold, which is the opposite of featuring it.
-                        On a narrow screen it stacks, poster first. */}
-                    <span className="flex flex-col gap-6 sm:flex-row sm:items-start">
+                        A half-width card has no room for two columns, so there
+                        the poster sits on top as normal. */}
+                    <span
+                      className={
+                        isBanner
+                          ? 'flex flex-col gap-6 sm:flex-row sm:items-start'
+                          : 'flex flex-col gap-4'
+                      }
+                    >
                       {poster && (
-                        <span className="block w-full shrink-0 sm:w-[240px] md:w-[280px]">{poster}</span>
+                        <span
+                          className={
+                            isBanner
+                              ? 'block w-full shrink-0 sm:w-[240px] md:w-[280px]'
+                              : 'block w-full'
+                          }
+                        >
+                          {poster}
+                        </span>
                       )}
                       <span className="flex min-w-0 flex-1 flex-col gap-3">
                         {head}
                         <span className="mt-1 inline-flex w-fit items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-bold tracking-wide text-white shadow-ministry transition-colors duration-200 group-hover:bg-brand-700">
-                          {live.ctaLabel}
+                          {ev.ctaLabel ?? 'Register on Eventbrite'}
                           {/* the arrow leaving the box is the convention for "this
                               opens somewhere else", which the new tab makes true */}
                           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

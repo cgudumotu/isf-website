@@ -676,9 +676,12 @@ export const gallery = {
     },
     {
       title: 'Halloween Party',
-      starts: '2026-10-30',
-      text: 'Details to be published soon.',
+      starts: '2026-10-30T18:00',
+      ends: '2026-10-30T21:00',
+      location: 'Cornerstone Church, 1000 North Studebaker Road, Long Beach 90815',
+      text: "Dinner with vegetarian options, plenty of candy, pumpkin carving, games, and a costume contest with a prize for best dressed. We'll also look at where Halloween came from and how it's celebrated today. Need a ride? Text Art on 562-606-6160 by 12pm Friday for a 5:30pm pickup from the International Student Dorm steps in parking lot G1, or the Beverly Plaza lot.",
       tag: 'Hangout',
+      href: 'https://www.eventbrite.com/e/halloween-party-tickets-2003871179641?aff=oddtdtcreator&keep_tld=true',
     },
   ],
   cta: {
@@ -741,19 +744,19 @@ export const featuredEvent = {
      Set to '' to switch the banner off entirely. A title that matches no
      event also shows nothing, so a typo fails visibly rather than
      advertising something the site does not list. */
-  title: '*',
+  title: 'Halloween Party',
 
   tag: 'New',
 
   /** The banner across the top of every page. */
   banner: {
     eyebrow: 'This Friday',
-    title: "Men's Night & Women's Night",
+    title: 'Halloween Party',
     /* The date is generated from the event, so it is never typed here and
        can never go stale. `note` is the only part you write: a few words
        on cost, rides, or anything else worth saying in the banner. */
-    note: 'Free dinner, rides available',
-    cta: 'See both events',
+    note: 'Dinner, candy, costume contest. Rides available',
+    cta: 'Save your spot',
   },
 
   /** Shown when somebody clicks any event that has no link yet. */
